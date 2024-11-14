@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+</head>
+<body>
+    <div >
+        <table>
+            <tr>
+                <th>
+                    Đơn giá
+                </th>
+                <th>
+                    Số lượng
+                </th>
+                <th>
+                    Thành tiền
+                </th>
+            </tr>
+            <tbody id="mycart">
+            <tr>
+                <td><h3>$50</h3></td>
+                <td><input type="number" name="soluong" class="soluong" value="1" min="1" max="50" style="width: 50px;"></td>
+                <td><h3>$<span id="thanhtien" class="thanhtien"> 50 </span></h3></td>
+            </tr>
+            <tr>
+                <td><h3> $150</h3></td>
+                <td><input type="number" name="soluong" class="soluong" value="2" min="1" max="50" style="width: 50px;"></td>
+                <td><h3> $<span id="thanhtien" class="thanhtien"> 300 </span></h3></td>
+            </tr>
+            <tr>
+                <td colspan="3"><h2>Tổng tiền: $<span id="tongtien"> 350 </span></h2></td>
+            </tr>
+            <tr>
+                <td colspan="3"><h3 id="msg"></h3></td>
+            </tr>
+        </tbody>
+            
+        </table>
+        
+        
+        
+        
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $(".soluong").change(function (e) { 
+                e.preventDefault();
+                // alert("ok");
+                var soluong=$(this).val();;
+                var kq=soluong*50;
+                var txt= $(this).parent().next().find("span").html(kq);
+                // alert(txt);
+                var mycart=$(".thanhtien");
+                // alert(mycart.length);
+                var tong=0;
+                for (let i = 0; i < mycart.length; i++) {
+                    tong+= parseInt(mycart[i].innerText);
+                }
+        
+                // alert(tong);
+                $("#tongtien").html(tong);
+                $.post("soluongsp.php", {
+                    soluong: soluong
+                },
+                    function (data, textStatus, jqXHR) {
+                        $("#msg").html(data);
+                    }
+                );
+
+                // var ttnew=$("#thanhtien").val();
+                // var tong=$("#tongtien").val();
+                // tong+=tt;
+                // $("#tongtieng").html(tong);
+                
+            });
+        });
+    </script>
+
+</body>
+</html>
